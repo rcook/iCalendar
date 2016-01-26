@@ -83,6 +83,11 @@ instance Default EncodingFunctions where
 type ContentPrinter = RWS EncodingFunctions Builder Int
 
 -- | Print a VCalendar object to a ByteString.
+--
+-- Examples:
+--
+-- >>> printICalendar (def :: EncodingFunctions) (def :: VCalendar)
+-- "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//haskell.org/NONSGML iCalendar-0.4.0.3//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"
 printICalendar :: EncodingFunctions -> VCalendar -> ByteString
 printICalendar r v = (\(_, _, x) -> Bu.toLazyByteString x) $
                      runRWS (printVCalendar v) r 0
